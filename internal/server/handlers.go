@@ -29,7 +29,7 @@ func (writer *statusWriter) Write(b []byte) (int, error) {
 
 func (hServer *HttpServer) wrapHandler(handler http.Handler) http.Handler {
 	next := hServer.LogHandler(hServer.AccessControlHandler(handler))
-	for _, nextHandler := range hServer.ServerInput.WrapHandlers {
+	for _, nextHandler := range hServer.Input.WrapHandlers {
 		next = nextHandler(next)
 	}
 	return hServer.RecoverHandler(next)

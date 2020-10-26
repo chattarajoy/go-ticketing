@@ -24,7 +24,7 @@ install: export-path
 	@-rm $(STDERR)
 	@chmod +x ticketing
 	@mv ticketing /usr/local/bin/
-	@printf "\nSuccesfully Installed Ticketing!!\n"
+	@printf "\nSuccessfully Installed Ticketing!!\n"
 
 export-path:
 	@export PATH=${PATH}:/usr/local/bin/

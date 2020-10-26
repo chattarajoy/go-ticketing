@@ -20,23 +20,23 @@ type Route struct {
 	Handler http.Handler
 }
 
-type ServerInput struct {
+type Input struct {
 	Port            int
 	Router          router.Router
 	Logger          log.Logger
 	NotFoundHandler http.Handler
 	ServerDrainTime int
-	RouteMap        []Route
+	Routes          []Route
 	WrapHandlers    []func(next http.Handler) http.Handler
 }
 
 type HttpServer struct {
-	*ServerInput
+	*Input
 }
 
-func CreateServer(group *workgroup.Group, inp *ServerInput) error {
-	hSever := &HttpServer{ServerInput: inp}
-	hSever.Routes()
+func CreateServer(group *workgroup.Group, inp *Input) error {
+	hSever := &HttpServer{Input: inp}
+	hSever.SetupRoutes()
 	server := &http.Server{Addr: ":" + fmt.Sprint(inp.Port), Handler: hSever.Router}
 
 	group.Add(func(stop <-chan struct{}) error {
@@ -72,9 +72,9 @@ func (hServer *HttpServer) ShutDownServer(server *http.Server, stop <-chan struc
 	}
 }
 
-func (hServer *HttpServer) Routes() {
+func (hServer *HttpServer) SetupRoutes() {
 	// setup routes from route map
-	for _, route := range hServer.RouteMap {
+	for _, route := range hServer.Routes {
 		hServer.handle(route.Method, route.Path, route.Handler)
 	}
 

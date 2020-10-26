@@ -13,7 +13,7 @@ import (
 
 func Test_httpServer_accessControlHandler(t *testing.T) {
 	type fields struct {
-		ServerInput *server.ServerInput
+		ServerInput *server.Input
 	}
 	type args struct {
 		next   http.Handler
@@ -32,7 +32,7 @@ func Test_httpServer_accessControlHandler(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			hServer := &server.HttpServer{
-				ServerInput: tt.fields.ServerInput,
+				Input: tt.fields.ServerInput,
 			}
 			hServer.Router.Handle("GET", tt.args.path, hServer.AccessControlHandler(tt.args.next))
 			req, err := http.NewRequest("GET", tt.args.path, nil)
@@ -72,7 +72,7 @@ func Test_httpServer_accessControlHandler(t *testing.T) {
 
 func Test_httpServer_logHandler(t *testing.T) {
 	type fields struct {
-		ServerInput *server.ServerInput
+		ServerInput *server.Input
 	}
 	type args struct {
 		next   http.Handler
@@ -91,7 +91,7 @@ func Test_httpServer_logHandler(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			hServer := &server.HttpServer{
-				ServerInput: tt.fields.ServerInput,
+				Input: tt.fields.ServerInput,
 			}
 			var writer *bytes.Buffer
 			hServer.Logger, writer = testhelpers.LoggerWithWriter()
@@ -137,7 +137,7 @@ func panicHandler(status string) http.Handler {
 
 func Test_httpServer_recoverHandler(t *testing.T) {
 	type fields struct {
-		ServerInput *server.ServerInput
+		ServerInput *server.Input
 	}
 	type args struct {
 		next   http.Handler
@@ -160,7 +160,7 @@ func Test_httpServer_recoverHandler(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			hServer := &server.HttpServer{
-				ServerInput: tt.fields.ServerInput,
+				Input: tt.fields.ServerInput,
 			}
 			hServer.Router.Handle("GET", tt.args.path, hServer.RecoverHandler(tt.args.next))
 			req, err := http.NewRequest("GET", tt.args.path, nil)
@@ -197,7 +197,7 @@ func customHeaderHandler(next http.Handler) http.Handler {
 func Test_wrapHandlers(t *testing.T) {
 
 	type fields struct {
-		ServerInput *server.ServerInput
+		ServerInput *server.Input
 	}
 	tests := []struct {
 		name            string
@@ -217,10 +217,10 @@ func Test_wrapHandlers(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			hServer := &server.HttpServer{
-				ServerInput: tt.fields.ServerInput,
+				Input: tt.fields.ServerInput,
 			}
-			hServer.ServerInput.WrapHandlers = []func(next http.Handler) http.Handler{customHeaderHandler}
-			hServer.Routes()
+			hServer.Input.WrapHandlers = []func(next http.Handler) http.Handler{customHeaderHandler}
+			hServer.SetupRoutes()
 			httpRouter := hServer.Router
 			req, err := http.NewRequest("GET", tt.path, nil)
 			if err != nil {

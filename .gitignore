@@ -90,3 +90,5 @@ fabric.properties
 # vendor/
 
 .idea/
+test-reports/
+ticketing

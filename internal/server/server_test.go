@@ -23,15 +23,15 @@ func DummyHandler(status string) http.Handler {
 	})
 }
 
-func GetServerInput(withNotFoundHandler bool) *server.ServerInput {
+func GetServerInput(withNotFoundHandler bool) *server.Input {
 
 	max, min := 60000, 30000
 	logger := testhelpers.FakeLogger()
-	serverInput := &server.ServerInput{
+	serverInput := &server.Input{
 		Port:   rand.Intn(max-min) + min,
 		Router: router.CreateRouter("httprouter"),
 		Logger: logger,
-		RouteMap: []server.Route{
+		Routes: []server.Route{
 			{"GET", "/test", DummyHandler("test")},
 			{"GET", "/test2", DummyHandler("test2")},
 		},
@@ -49,7 +49,7 @@ func TestCreateServer(t *testing.T) {
 
 	type args struct {
 		group *workgroup.Group
-		inp   *server.ServerInput
+		inp   *server.Input
 	}
 	tests := []struct {
 		name    string
@@ -92,7 +92,7 @@ func TestCreateServer(t *testing.T) {
 func Test_httpServer_routes(t *testing.T) {
 
 	type fields struct {
-		ServerInput *server.ServerInput
+		ServerInput *server.Input
 	}
 	tests := []struct {
 		name   string
@@ -113,9 +113,9 @@ func Test_httpServer_routes(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			hServer := &server.HttpServer{
-				ServerInput: tt.fields.ServerInput,
+				Input: tt.fields.ServerInput,
 			}
-			hServer.Routes()
+			hServer.SetupRoutes()
 			httpRouter := hServer.Router
 			req, err := http.NewRequest("GET", tt.path, nil)
 			if err != nil {
@@ -145,14 +145,14 @@ func Test_httpServer_shutDownServer(t *testing.T) {
 	t.Parallel()
 	tests := []struct {
 		name string
-		*server.ServerInput
+		*server.Input
 	}{
 		{"testShutdown", GetServerInput(false)},
 	}
 	for _, tt := range tests {
 
 		hServer := &server.HttpServer{
-			ServerInput: tt.ServerInput,
+			Input: tt.Input,
 		}
 		server := &http.Server{Addr: ":" + fmt.Sprint(hServer.Port), Handler: hServer.Router}
 		stopAll := make(chan int, 1)

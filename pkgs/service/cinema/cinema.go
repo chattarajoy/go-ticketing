@@ -40,6 +40,33 @@ func (s *Service) ListCinemas() (*ListCinemasOutput, error) {
 	if result.Error != nil {
 		return nil, result.Error
 	}
-	// added successfully
 	return &ListCinemasOutput{Cinemas: cinemas}, nil
+}
+
+func (s *Service) AddCinemaScreen(inp *AddCinemaScreenInput) (*AddCinemaScreenOutput, error) {
+	screen := models.CinemaScreen{
+		Name:     inp.ScreenName,
+		CinemaID: inp.CinemaID,
+	}
+	result := s.db.Create(&screen)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	out := &AddCinemaScreenOutput{CinemaScreen: screen}
+
+	for _, seat := range inp.Seats {
+		se := models.CinemaSeat{
+			SeatNumber: seat.SeatNumber,
+			Type:       seat.SeatType,
+		}
+		result := s.db.Create(&se)
+		if result.Error != nil {
+			return out, result.Error
+		}
+	}
+
+	// re-fetch all cinemas
+	result = s.db.Preload("CinemaSeat").Preload("Cinema").Find(&screen, screen.ID)
+	return out, result.Error
 }

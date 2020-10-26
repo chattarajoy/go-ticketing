@@ -35,6 +35,32 @@ type ListCinemasOutput struct {
 	Cinemas []models.Cinema `json:"cinemas"`
 }
 
-type AddCinemaScreensInput struct {
-	CinemaID int `json:"cinema_id"`
+type AddCinemaScreenInput struct {
+	CinemaID   int         `json:"cinema_id"`
+	ScreenName string      `json:"screen_name"`
+	Seats      []*SeatInfo `json:"seats"`
+}
+
+func (acs *AddCinemaScreenInput) Validate(db *gorm.DB) error {
+
+	// check non-empty valid inputs
+	if acs.CinemaID == 0 || acs.ScreenName == "" {
+		return fmt.Errorf("cinema_id and screen_name are required parameters")
+	}
+
+	// check if city id exists
+	var cinema *models.Cinema
+	if result := db.Find(&cinema, acs.CinemaID); result.Error != nil {
+		return result.Error
+	}
+	return nil
+}
+
+type SeatInfo struct {
+	SeatNumber int             `json:"seat_number"`
+	SeatType   models.SeatType `json:"seat_type"`
+}
+
+type AddCinemaScreenOutput struct {
+	CinemaScreen models.CinemaScreen `json:"cinema_screen"`
 }

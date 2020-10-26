@@ -9,6 +9,7 @@ const (
 	Balcony
 )
 
+// TODO: add unique index on ZIP Code
 type City struct {
 	Model
 	Name    string `json:"name"`
@@ -21,7 +22,7 @@ type Cinema struct {
 	Name string `json:"name"`
 
 	// relations
-	CinemaScreens []CinemaScreen `json:"cinema_screens" gorm:"foreignkey:CinemaID"`
+	CinemaScreens []CinemaScreen `json:"screens" gorm:"foreignkey:CinemaID"`
 	CityID        int            `json:"-"`
 	City          City           `json:"city"`
 }
@@ -33,8 +34,8 @@ type CinemaScreen struct {
 
 	// relations
 	CinemaID    int          `json:"-"`
-	Cinema      Cinema       `json:"cinema"`
-	CinemaSeats []CinemaSeat `gorm:"foreignKey:CinemaScreenID" json:"cinema_seats"`
+	Cinema      Cinema       `json:"-"`
+	CinemaSeats []CinemaSeat `json:"seats" gorm:"foreignkey:CinemaScreenID"`
 }
 
 // CinemaSeat: all the seats in a cinema screen
@@ -45,5 +46,5 @@ type CinemaSeat struct {
 
 	// relations
 	CinemaScreenID int          `json:"-"`
-	CinemaScreen   CinemaScreen `json:"cinema_screen"`
+	CinemaScreen   CinemaScreen `json:"-"`
 }

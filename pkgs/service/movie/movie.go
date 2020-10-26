@@ -12,6 +12,7 @@ type Service struct {
 	cache cache.Cache
 }
 
+// TODO: Add Logger
 func NewService(db *gorm.DB, cache cache.Cache) *Service {
 	return &Service{
 		db:    db,

@@ -5,10 +5,10 @@ import (
 )
 
 type Response struct {
-	Success      bool
-	StatusCode   int
-	Data         []byte
-	ErrorMessage string
+	Success      bool        `json:"success"`
+	StatusCode   int         `json:"status_code"`
+	Data         interface{} `json:"data"`
+	ErrorMessage string      `json:"error_message"`
 }
 
 func ErrorResponse(errorMessage string, statusCode int) *Response {
@@ -19,7 +19,7 @@ func ErrorResponse(errorMessage string, statusCode int) *Response {
 	}
 }
 
-func SuccessResponse(payload []byte) *Response {
+func SuccessResponse(payload interface{}) *Response {
 	return &Response{
 		Success:    true,
 		StatusCode: http.StatusOK,

@@ -3,6 +3,8 @@ package server
 import (
 	"fmt"
 	"net/http"
+
+	"commerceiq.ai/ticketing/pkgs/api"
 )
 
 func defaultHandler(handlerType string) http.Handler {
@@ -13,6 +15,12 @@ func defaultHandler(handlerType string) http.Handler {
 	}
 	return http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
 		NotFoundHandler(request, writer)
+	})
+}
+
+func wrapHandler(handler api.HandlerFunc) http.Handler {
+	return http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
+		handler(request, writer)
 	})
 }
 

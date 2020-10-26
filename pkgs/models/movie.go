@@ -63,6 +63,7 @@ func (ms *MovieShow) AfterCreate(db *gorm.DB) (err error) {
 	}
 	return nil
 }
+
 func (ms *MovieShow) GenerateShowSeats(db *gorm.DB) error {
 	var seats []*CinemaSeat
 	result := db.Where("cinema_screen_id = ?", ms.CinemaScreenID).Find(&seats)

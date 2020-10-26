@@ -1,15 +1,19 @@
 package server
 
 import (
+	"fmt"
 	"net/http"
 	"os"
 
 	"github.com/go-kit/kit/log"
 	"github.com/spf13/cobra"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 
 	"commerceiq.ai/ticketing/internal/router"
 	"commerceiq.ai/ticketing/internal/server"
 	"commerceiq.ai/ticketing/internal/workgroup"
+	"commerceiq.ai/ticketing/pkgs/models"
 )
 
 type CMD struct {
@@ -23,6 +27,7 @@ type Server struct {
 	Name   string
 	Router router.Router
 	Routes []server.Route
+	Db     *gorm.DB
 }
 
 type Config struct {
@@ -53,13 +58,6 @@ var (
 func Init(cmd *CMD) {
 	cmd.RootCmd.AddCommand(serverCmd)
 	apiServer.initLogger(cmd.Logger)
-	// cfg, err := apiServer.loadConfig(serverCmd.Flags())
-	// if err != nil {
-	// 	_ = apiServer.Logger.Log("Error Reading Config: ", err, "Exiting", "!!")
-	// 	os.Exit(1)
-	// }
-	// _ = cfg.Print(apiServer.Logger)
-	apiServer.setupRoutes()
 }
 
 func (s *Server) initLogger(logger log.Logger) {
@@ -67,11 +65,40 @@ func (s *Server) initLogger(logger log.Logger) {
 }
 
 func startServer(_ *cobra.Command, _ []string) {
-	err := apiServer.runServer(defaultHandler(""))
+	err := apiServer.dbInit()
 	if err != nil {
 		_ = apiServer.Logger.Log("Error", err.Error(), "Exiting", "...")
 		os.Exit(1)
 	}
+
+	apiServer.setupRoutes()
+	err = apiServer.runServer(defaultHandler(""))
+	if err != nil {
+		_ = apiServer.Logger.Log("Error", err.Error(), "Exiting", "...")
+		os.Exit(1)
+	}
+}
+
+func (s *Server) dbInit() error {
+	// TODO: Move to CLI Arguments
+	dsn := "root:@tcp(127.0.0.1:3306)/commerceiq?charset=utf8mb4&parseTime=True&loc=Local"
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	if err != nil {
+		fmt.Println("error connecting to DB: ", err.Error())
+		os.Exit(1)
+	}
+	s.Db = db
+	return db.AutoMigrate(&models.Booking{},
+		&models.BookingSeat{},
+		&models.Movie{},
+		&models.MovieShow{},
+		&models.User{},
+		&models.City{},
+		&models.Cinema{},
+		&models.CinemaScreen{},
+		&models.CinemaSeat{},
+	)
+
 }
 
 func (s *Server) runServer(handler http.Handler) error {

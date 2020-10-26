@@ -30,7 +30,8 @@ type MovieShow struct {
 	MovieID        int `json:"-"`
 	CinemaScreen   CinemaScreen
 	Movie          Movie
-	Bookings       []Booking `gorm:"foreignKey:MovieShowID"`
+	Bookings       []Booking     `json:"bookings" gorm:"foreignKey:MovieShowID"`
+	Seats          []BookingSeat `json:"seats" gorm:"foreignKey:MovieShowID"`
 }
 
 // check if show is valid

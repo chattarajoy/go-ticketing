@@ -45,3 +45,12 @@ func (s *Service) AddMovieShow(inp *AddMovieShowInput) (*AddMovieShowOutput, err
 	}
 	return &AddMovieShowOutput{Show: show}, nil
 }
+
+func (s *Service) ListMovieShow(inp *ListMovieShowInput) (*ListMovieShowOutput, error) {
+
+	var show models.MovieShow
+	if result := s.db.Preload("CinemaScreen").Preload("BookingSeat").Find(&show, inp.ShowID); result.Error != nil {
+		return nil, result.Error
+	}
+	return &ListMovieShowOutput{Show: show}, nil
+}

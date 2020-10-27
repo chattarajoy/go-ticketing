@@ -9,7 +9,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	"commerceiq.ai/ticketing/cmd/server"
+	"github.com/chattarajoy/go-ticketing/cmd/server"
 )
 
 var (

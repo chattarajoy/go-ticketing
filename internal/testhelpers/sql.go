@@ -7,7 +7,7 @@ import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 
-	"commerceiq.ai/ticketing/pkgs/models"
+	"github.com/chattarajoy/go-ticketing/pkgs/models"
 )
 
 func SetupDB() *gorm.DB { // or *gorm.DB

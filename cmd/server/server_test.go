@@ -9,8 +9,8 @@ import (
 
 	"github.com/go-kit/kit/log"
 
-	"commerceiq.ai/ticketing/internal/router"
-	"commerceiq.ai/ticketing/internal/server"
+	"github.com/chattarajoy/go-ticketing/internal/router"
+	"github.com/chattarajoy/go-ticketing/internal/server"
 )
 
 func TestServer_BasicRoutes(t *testing.T) {

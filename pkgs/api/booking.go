@@ -3,8 +3,8 @@ package api
 import (
 	"net/http"
 
-	jsonHelper "commerceiq.ai/ticketing/internal/json"
-	"commerceiq.ai/ticketing/pkgs/service/booking"
+	jsonHelper "github.com/chattarajoy/go-ticketing/internal/json"
+	"github.com/chattarajoy/go-ticketing/pkgs/service/booking"
 )
 
 func (h *Handler) ListBookings(request *http.Request, writer http.ResponseWriter) {

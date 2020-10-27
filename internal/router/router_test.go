@@ -7,7 +7,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"commerceiq.ai/ticketing/internal/router"
+	"github.com/chattarajoy/go-ticketing/internal/router"
 )
 
 func dummyHandler(status string) http.Handler {

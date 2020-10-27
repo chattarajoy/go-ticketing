@@ -3,8 +3,8 @@ package api
 import (
 	"net/http"
 
-	jsonHelper "commerceiq.ai/ticketing/internal/json"
-	"commerceiq.ai/ticketing/pkgs/service/movie"
+	jsonHelper "github.com/chattarajoy/go-ticketing/internal/json"
+	"github.com/chattarajoy/go-ticketing/pkgs/service/movie"
 )
 
 func (h *Handler) GetShow(request *http.Request, writer http.ResponseWriter) {

@@ -6,9 +6,9 @@ import (
 
 	"gorm.io/gorm"
 
-	"commerceiq.ai/ticketing/internal/cache"
-	"commerceiq.ai/ticketing/internal/testhelpers"
-	"commerceiq.ai/ticketing/pkgs/models"
+	"github.com/chattarajoy/go-ticketing/internal/cache"
+	"github.com/chattarajoy/go-ticketing/internal/testhelpers"
+	"github.com/chattarajoy/go-ticketing/pkgs/models"
 )
 
 func TestNewService(t *testing.T) {

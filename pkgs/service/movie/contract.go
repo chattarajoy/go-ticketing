@@ -6,7 +6,7 @@ import (
 
 	"gorm.io/gorm"
 
-	"commerceiq.ai/ticketing/pkgs/models"
+	"github.com/chattarajoy/go-ticketing/pkgs/models"
 )
 
 type AddMovieInput struct {

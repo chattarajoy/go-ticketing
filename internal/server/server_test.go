@@ -9,11 +9,11 @@ import (
 	"testing"
 	"time"
 
-	"commerceiq.ai/ticketing/internal/workgroup"
+	"github.com/chattarajoy/go-ticketing/internal/workgroup"
 
-	"commerceiq.ai/ticketing/internal/router"
-	"commerceiq.ai/ticketing/internal/server"
-	"commerceiq.ai/ticketing/internal/testhelpers"
+	"github.com/chattarajoy/go-ticketing/internal/router"
+	"github.com/chattarajoy/go-ticketing/internal/server"
+	"github.com/chattarajoy/go-ticketing/internal/testhelpers"
 )
 
 func DummyHandler(status string) http.Handler {

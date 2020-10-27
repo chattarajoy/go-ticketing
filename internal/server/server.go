@@ -10,8 +10,8 @@ import (
 
 	"github.com/go-kit/kit/log"
 
-	"commerceiq.ai/ticketing/internal/router"
-	"commerceiq.ai/ticketing/internal/workgroup"
+	"github.com/chattarajoy/go-ticketing/internal/router"
+	"github.com/chattarajoy/go-ticketing/internal/workgroup"
 )
 
 type Route struct {

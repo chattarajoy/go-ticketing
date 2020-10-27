@@ -1,8 +1,8 @@
 package server
 
 import (
-	"commerceiq.ai/ticketing/internal/server"
-	"commerceiq.ai/ticketing/pkgs/api"
+	"github.com/chattarajoy/go-ticketing/internal/server"
+	"github.com/chattarajoy/go-ticketing/pkgs/api"
 )
 
 func (s *Server) setupRoutes() {

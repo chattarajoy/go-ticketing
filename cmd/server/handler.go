@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"commerceiq.ai/ticketing/pkgs/api"
+	"github.com/chattarajoy/go-ticketing/pkgs/api"
 )
 
 func defaultHandler(handlerType string) http.Handler {

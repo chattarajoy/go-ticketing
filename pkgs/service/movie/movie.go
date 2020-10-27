@@ -4,8 +4,8 @@ import (
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 
-	"commerceiq.ai/ticketing/internal/cache"
-	"commerceiq.ai/ticketing/pkgs/models"
+	"github.com/chattarajoy/go-ticketing/internal/cache"
+	"github.com/chattarajoy/go-ticketing/pkgs/models"
 )
 
 type Service struct {

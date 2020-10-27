@@ -6,7 +6,7 @@ import (
 
 	"gorm.io/gorm"
 
-	"commerceiq.ai/ticketing/internal/testhelpers"
+	"github.com/chattarajoy/go-ticketing/internal/testhelpers"
 )
 
 func TestAddMovieInput_Validate(t *testing.T) {

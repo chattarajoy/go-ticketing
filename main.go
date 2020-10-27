@@ -1,7 +1,7 @@
 package main
 
 import (
-	"commerceiq.ai/ticketing/cmd"
+	"github.com/chattarajoy/go-ticketing/cmd"
 )
 
 func main() {

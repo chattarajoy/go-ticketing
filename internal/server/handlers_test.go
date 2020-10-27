@@ -7,8 +7,8 @@ import (
 	"strings"
 	"testing"
 
-	"commerceiq.ai/ticketing/internal/server"
-	"commerceiq.ai/ticketing/internal/testhelpers"
+	"github.com/chattarajoy/go-ticketing/internal/server"
+	"github.com/chattarajoy/go-ticketing/internal/testhelpers"
 )
 
 func Test_httpServer_accessControlHandler(t *testing.T) {

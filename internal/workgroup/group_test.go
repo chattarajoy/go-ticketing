@@ -5,7 +5,7 @@ import (
 	"io"
 	"testing"
 
-	"commerceiq.ai/ticketing/internal/workgroup"
+	"github.com/chattarajoy/go-ticketing/internal/workgroup"
 )
 
 func TestGroupRunWithNoRegisteredFunctions(t *testing.T) {

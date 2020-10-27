@@ -1,4 +1,4 @@
-module commerceiq.ai/ticketing
+module github.com/chattarajoy/go-ticketing
 
 go 1.14
 

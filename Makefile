@@ -4,7 +4,7 @@ SHELL=/bin/bash -o pipefail
 GIT_TAG := $(shell git describe --tags --exact-match 2> /dev/null || git symbolic-ref -q --short HEAD)
 GIT_COMMIT := $(shell git rev-parse --short HEAD)
 PROJECT_NAME := $(shell basename "$(PWD)")
-BUILD_VARS_IMPORT_PATH := commerceiq.ai/ticketing/cmd
+BUILD_VARS_IMPORT_PATH := github.com/chattarajoy/go-ticketing/cmd
 
 # Go related variables.
 GOBASE := $(shell pwd)

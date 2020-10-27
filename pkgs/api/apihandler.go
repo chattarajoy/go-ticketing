@@ -6,11 +6,11 @@ import (
 
 	"gorm.io/gorm"
 
-	"commerceiq.ai/ticketing/internal/cache"
-	jsonHelper "commerceiq.ai/ticketing/internal/json"
-	"commerceiq.ai/ticketing/pkgs/service/booking"
-	"commerceiq.ai/ticketing/pkgs/service/cinema"
-	"commerceiq.ai/ticketing/pkgs/service/movie"
+	"github.com/chattarajoy/go-ticketing/internal/cache"
+	jsonHelper "github.com/chattarajoy/go-ticketing/internal/json"
+	"github.com/chattarajoy/go-ticketing/pkgs/service/booking"
+	"github.com/chattarajoy/go-ticketing/pkgs/service/cinema"
+	"github.com/chattarajoy/go-ticketing/pkgs/service/movie"
 )
 
 // TODO: Add Logger

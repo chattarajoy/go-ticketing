@@ -13,6 +13,7 @@ func (s *Server) setupRoutes() {
 			Path:    "/healthz",
 			Handler: defaultHandler("healthz"),
 		},
+		// cinema routes
 		{
 			Method:  "GET",
 			Path:    "/cinemas",
@@ -27,6 +28,33 @@ func (s *Server) setupRoutes() {
 			Method:  "POST",
 			Path:    "/screen",
 			Handler: wrapHandler(apiHandler.AddCinemaScreen),
+		},
+		// movie routes
+		{
+			Method:  "GET",
+			Path:    "/shows",
+			Handler: wrapHandler(apiHandler.ListShow),
+		},
+		{
+			Method:  "POST",
+			Path:    "/show",
+			Handler: wrapHandler(apiHandler.AddShow),
+		},
+		{
+			Method:  "POST",
+			Path:    "/movie",
+			Handler: wrapHandler(apiHandler.AddMovie),
+		},
+		// booking related routes
+		{
+			Method:  "GET",
+			Path:    "/bookings",
+			Handler: wrapHandler(apiHandler.ListBookings),
+		},
+		{
+			Method:  "POST",
+			Path:    "/book",
+			Handler: wrapHandler(apiHandler.BookSeats),
 		},
 	}
 }

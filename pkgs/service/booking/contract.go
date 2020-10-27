@@ -33,3 +33,7 @@ func (bs *BookSeatsInput) Validate(db *gorm.DB) error {
 type BookSeatsOutput struct {
 	Booking models.Booking `json:"booking"`
 }
+
+type ListBookingsOutput struct {
+	Bookings []models.Booking `json:"bookings"`
+}

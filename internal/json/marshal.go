@@ -5,6 +5,6 @@ import (
 )
 
 func MarshalStruct(i interface{}) []byte {
-	b, _ := json.MarshalIndent(i, "", "\t")
+	b, _ := json.MarshalIndent(i, "", " ")
 	return b
 }

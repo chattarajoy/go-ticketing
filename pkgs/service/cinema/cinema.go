@@ -80,7 +80,6 @@ func (s *Service) AddCinemaScreen(inp *AddCinemaScreenInput) (*AddCinemaScreenOu
 	// re-fetch all cinemas
 	if _, ok := s.cache.Get("ListCinemasOutput"); ok {
 		s.cache.Delete("ListCinemasOutput")
-
 	}
 	result = s.db.Preload("CinemaSeats").Preload("Cinema").Find(&screen, screen.ID)
 	out.CinemaScreen = screen

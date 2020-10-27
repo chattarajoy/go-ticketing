@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"time"
 
+	"gorm.io/gorm"
+
 	"commerceiq.ai/ticketing/pkgs/models"
 )
 
@@ -13,7 +15,7 @@ type AddMovieInput struct {
 	Duration    time.Duration `json:"duration"`
 }
 
-func (am *AddMovieInput) Validate() error {
+func (am *AddMovieInput) Validate(db *gorm.DB) error {
 	if am.Name == "" || am.Description == "" || am.Duration == 0 {
 		return fmt.Errorf("name, description and duration are mandatory fields")
 	}
@@ -31,7 +33,7 @@ type AddMovieShowInput struct {
 	EndTime        time.Time `json:"end_time"`
 }
 
-func (ams *AddMovieShowInput) Validate() error {
+func (ams *AddMovieShowInput) Validate(db *gorm.DB) error {
 	if ams.MovieID == 0 || ams.CinemaScreenID == 0 || ams.StartTime.IsZero() || ams.EndTime.IsZero() {
 		return fmt.Errorf("movie_id, cinema_screen_id, end_time, and start_time are mandatory fields")
 	}
@@ -46,7 +48,7 @@ type ListMovieShowInput struct {
 	ShowID int `json:"show_id"`
 }
 
-func (lms *ListMovieShowInput) Validate() error {
+func (lms *ListMovieShowInput) Validate(db *gorm.DB) error {
 	if lms.ShowID == 0 {
 		return fmt.Errorf("movie_id, cinema_screen_id, end_time, and start_time are mandatory fields")
 	}

@@ -1,16 +1,29 @@
-# Movie Booking API
+# Ticketing (REST API for booking movie tickets)
 
-## Actions
+## List of features
 
 ### Cinema Service
-* Add Cinema
-* Add CinemaScreen
+* Add Cinema (Cinema can be a hall or a multiplex)
+* Add CinemaScreen (a screen in a hall or multiplex)
 
 ### Movies Service
-* Add Movies
-* Add Movie Shows
-* List Movie Shows
+* Add Movies (any movie that has been released)
+* Add Movie Shows (add a show to screen from list of movies)
+* List Movie Shows (list of shows across screens and halls)
 
 ###  Booking Service
-* Show Movie Show seat status
-* Book Ticket with multiple seat selection
+* Show Movie Show seat status (show status of all bookings)
+* Book Ticket with multiple seat selection (book multiple seats in a screen show)
+
+# Running Locally using Docker
+
+```bash
+docker-compose up
+```
+
+access site on: https://localhost:4000/
+
+
+# API Contracts and Responses
+
+# Cinema APIs

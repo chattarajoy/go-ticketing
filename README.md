@@ -21,10 +21,19 @@
 docker-compose up
 ```
 
-access site on: https://localhost:4000/
+access site on: http://localhost:4000/
 
 # Documentation
 
-* [API Docs](docs/api)
+* [API Docs](docs/api/index.md)
 * [Database Design](docs/database_design.md)
 * [Code Structure](docs/code_structure.md)
+
+# TODO
+
+- [ ] Add tests for more cases
+- [ ] Add tests for helpers
+- [ ] Fix MYSQL setup in github actions
+- [ ] Add Authentication
+- [ ] Add a user type field for theatre owners
+- [ ] Add logger to each struct in services / api handlers

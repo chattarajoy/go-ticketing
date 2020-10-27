@@ -32,7 +32,7 @@ func (s *Server) setupRoutes() {
 		// movie routes
 		{
 			Method:  "GET",
-			Path:    "/shows",
+			Path:    "/show",
 			Handler: wrapHandler(apiHandler.GetShow),
 		},
 		{

@@ -857,3 +857,12 @@ Sample Response
     "error_message": ""
 }
 ```
+
+# TODO
+
+[] Add tests for more cases
+[] Add tests for helpers
+[] Fix github actions
+[] Add Authentication
+[] Add a user type field for theatre owners
+[] Add logger to each struct in services / api handlers

@@ -29,4 +29,4 @@ COPY --from=build_base /tmp/ticketing/out/ticketing /app/ticketing
 EXPOSE 8080
 
 # Run the binary program produced by `go install`
-CMD ["/app/ticketing"]
+CMD ["/app/ticketing", "server"]

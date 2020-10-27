@@ -10,7 +10,7 @@ services:
       # You can use whatever password you like
       MYSQL_PASSWORD: 'user'
       # Password for root access
-      MYSQL_ROOT_PASSWORD: ''
+      MYSQL_ROOT_PASSWORD: 'root'
     ports:
       # <Port exposed> : < MySQL Port running inside container>
       - '3306:3306'
@@ -27,7 +27,6 @@ services:
     - "4000"
     ports:
     - 4000:4000
-    WAIT_HOSTS: db:3306
     depends_on:
     - db
 # Names our volume

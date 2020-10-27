@@ -92,3 +92,4 @@ fabric.properties
 .idea/
 test-reports/
 ticketing
+my-db/*

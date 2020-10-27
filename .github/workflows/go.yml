@@ -34,3 +34,10 @@ jobs:
 
     - name: Test
       run: go test -v ./...
+      uses: mirromutth/mysql-action@v1.1
+        with:
+          mysql version: '5.7'
+          mysql database: 'ticketing_test'
+          mysql root password: root
+          mysql user: 'user'
+          mysql password: 'user'

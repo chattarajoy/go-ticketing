@@ -37,6 +37,10 @@ func (ams *AddMovieShowInput) Validate(db *gorm.DB) error {
 	if ams.MovieID == 0 || ams.CinemaScreenID == 0 || ams.StartTime.IsZero() || ams.EndTime.IsZero() {
 		return fmt.Errorf("movie_id, cinema_screen_id, end_time, and start_time are mandatory fields")
 	}
+
+	if ams.StartTime.Sub(ams.EndTime) > 0 {
+		return fmt.Errorf("start time cannot be greater than end time")
+	}
 	return nil
 }
 

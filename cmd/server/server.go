@@ -81,7 +81,7 @@ func startServer(_ *cobra.Command, _ []string) {
 
 func (s *Server) dbInit() error {
 	// TODO: Move to CLI Arguments
-	dsn := "root:@tcp(127.0.0.1:3306)/commerceiq?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn := "root:@tcp(127.0.0.1:3306)/ticketing?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		fmt.Println("error connecting to DB: ", err.Error())

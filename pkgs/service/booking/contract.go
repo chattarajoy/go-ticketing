@@ -9,14 +9,15 @@ import (
 )
 
 type BookSeatsInput struct {
-	ShowID      int   `json:"show_id"`
-	SeatNumbers []int `json:"seat_numbers"`
-	UserID      int   `json:"user_id"`
+	ShowID      int             `json:"show_id"`
+	SeatNumbers []int           `json:"seat_numbers"`
+	UserID      int             `json:"user_id"`
+	SeatType    models.SeatType `json:"seat_type"`
 }
 
 func (bs *BookSeatsInput) Validate(db *gorm.DB) error {
-	if bs.ShowID == 0 || bs.UserID == 0 || bs.SeatNumbers == nil {
-		return fmt.Errorf("show_id, seat_numbers and user_id are required parameters")
+	if bs.ShowID == 0 || bs.UserID == 0 || bs.SeatNumbers == nil || bs.SeatType == "" {
+		return fmt.Errorf("show_id, seat_numbers, seat_type and user_id are required parameters")
 	}
 
 	var show models.MovieShow

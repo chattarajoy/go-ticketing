@@ -1,12 +1,12 @@
 package models
 
-type SeatType int
+type SeatType string
 
 const (
-	Recliner SeatType = iota + 1
-	Premium
-	FrontRow
-	Balcony
+	Recliner SeatType = "RECLINER"
+	Premium  SeatType = "PREMIUM"
+	FrontRow SeatType = "FRONT"
+	Balcony  SeatType = "BALCONY"
 )
 
 // TODO: add unique index on ZIP Code
@@ -41,10 +41,10 @@ type CinemaScreen struct {
 // CinemaSeat: all the seats in a cinema screen
 type CinemaSeat struct {
 	Model
-	SeatNumber int      `json:"seat_number"`
-	Type       SeatType `json:"type"`
+	SeatNumber int      `json:"seat_number" gorm:"index:unique_seat_per_cinema_screen_and_type,unique"`
+	Type       SeatType `json:"type" gorm:"index:unique_seat_per_cinema_screen_and_type,unique"`
 
 	// relations
-	CinemaScreenID int          `json:"-"`
+	CinemaScreenID int          `json:"-" gorm:"index:unique_seat_per_cinema_screen_and_type,unique"`
 	CinemaScreen   CinemaScreen `json:"-"`
 }

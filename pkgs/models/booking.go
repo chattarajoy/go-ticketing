@@ -1,22 +1,23 @@
 package models
 
 import (
+	"database/sql"
 	"fmt"
 
 	"gorm.io/gorm"
 )
 
-type BookingStatus int
-type SeatStatus int
+type BookingStatus string
+type SeatStatus string
 
 const (
-	BookingConfirmed BookingStatus = iota + 1
-	BookingCancelled
-	BookingFailed
-	BookingPending
+	BookingConfirmed BookingStatus = "CONFIRMED"
+	BookingCancelled BookingStatus = "CANCELLED"
+	BookingFailed    BookingStatus = "FAILED"
+	BookingPending   BookingStatus = "PENDING"
 
-	SeatAvailable SeatStatus = iota + 1
-	SeatBooked
+	SeatAvailable SeatStatus = "AVAILABLE"
+	SeatBooked    SeatStatus = "BOOKED"
 )
 
 type Booking struct {
@@ -32,11 +33,16 @@ type Booking struct {
 	Seats       []BookingSeat `json:"seats" gorm:"foreignKey:BookingID"`
 }
 
+func (b *Booking) BeforeSave(db *gorm.DB) (err error) {
+	b.MovieShow = MovieShow{}
+	return
+}
+
 // TODO: Break into smaller logical methods
-func (b *Booking) BookSeats(db *gorm.DB, seatNumbers []int) error {
+func (b *Booking) BookSeats(db *gorm.DB, seatNumbers []int, seatType SeatType) error {
 	var seats []int
 	result := db.Model(&CinemaSeat{}).
-		Where("cinema_screen_id = ? AND seat_number IN ?", b.MovieShow.CinemaScreenID, seatNumbers).
+		Where("cinema_screen_id = ? AND seat_number IN ? AND type = ? ", b.MovieShow.CinemaScreenID, seatNumbers, seatType).
 		Pluck("ID", &seats)
 
 	if len(seatNumbers) != len(seats) {
@@ -44,14 +50,15 @@ func (b *Booking) BookSeats(db *gorm.DB, seatNumbers []int) error {
 	}
 
 	result = db.Model(BookingSeat{}).
-		Where("cinema_seat_ids IN ?", seats).
-		Where("status = ", SeatAvailable).
+		Where("cinema_seat_id IN ?", seats).
+		Where("status = ? ", SeatAvailable).
+		Where("movie_show_id = ? ", b.MovieShow.ID).
 		Updates(map[string]interface{}{"status": SeatBooked, "booking_id": b.ID})
 
 	if result.RowsAffected != int64(len(seats)) {
 		errorMsg := "race condition while booking, some seats got booked already"
 		revert := db.Model(BookingSeat{}).
-			Where("cinema_seat_ids IN ?", seats).
+			Where("cinema_seat_id IN ?", seats).
 			Where("status = ?", SeatBooked).
 			Where("booking_id = ?", b.ID).
 			Updates(map[string]interface{}{"status": SeatAvailable, "booking_id": 0})
@@ -72,13 +79,13 @@ func (b *Booking) Confirm() {
 }
 
 type BookingSeat struct {
-	Status       SeatStatus `json:"status"`
-	MovieShowID  int        `json:"-" gorm:"index:unique_seat_per_show,unique"`
-	CinemaSeatID int        `json:"-" gorm:"index:unique_seat_per_show,unique"`
-	BookingID    int        `json:"-"`
+	Status       SeatStatus    `json:"status"`
+	MovieShowID  int           `json:"-" gorm:"index:unique_seat_per_show,unique"`
+	CinemaSeatID int           `json:"-" gorm:"index:unique_seat_per_show,unique"`
+	BookingID    sql.NullInt64 `json:"-"`
 
 	// relations
-	MovieShow  MovieShow  `json:"movie_show"`
+	MovieShow  MovieShow  `json:"-"`
 	CinemaSeat CinemaSeat `json:"cinema_seat"`
-	Booking    Booking    `json:"booking"`
+	Booking    Booking    `json:"-"`
 }

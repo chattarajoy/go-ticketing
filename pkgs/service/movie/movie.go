@@ -2,6 +2,7 @@ package movie
 
 import (
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 
 	"commerceiq.ai/ticketing/internal/cache"
 	"commerceiq.ai/ticketing/pkgs/models"
@@ -44,14 +45,19 @@ func (s *Service) AddMovieShow(inp *AddMovieShowInput) (*AddMovieShowOutput, err
 	if result := s.db.Create(&show); result.Error != nil {
 		return nil, result.Error
 	}
-	return &AddMovieShowOutput{Show: show}, nil
-}
-
-func (s *Service) ListMovieShow(inp *ListMovieShowInput) (*ListMovieShowOutput, error) {
-
-	var show models.MovieShow
-	if result := s.db.Preload("CinemaScreen").Preload("BookingSeat").Find(&show, inp.ShowID); result.Error != nil {
+	out := &AddMovieShowOutput{Show: show}
+	if result := s.db.Preload("Movie").Preload("Bookings").Preload("Seats").First(&show, show.ID); result.Error != nil {
 		return nil, result.Error
 	}
-	return &ListMovieShowOutput{Show: show}, nil
+	out.Show = show
+	return out, nil
+}
+
+func (s *Service) GetMovieShow(inp *GetMovieShowInput) (*GetMovieShowOutput, error) {
+
+	var show models.MovieShow
+	if result := s.db.Preload(clause.Associations).Find(&show, inp.ShowID); result.Error != nil {
+		return nil, result.Error
+	}
+	return &GetMovieShowOutput{Show: show}, nil
 }

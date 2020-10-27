@@ -33,7 +33,7 @@ func (s *Server) setupRoutes() {
 		{
 			Method:  "GET",
 			Path:    "/shows",
-			Handler: wrapHandler(apiHandler.ListShow),
+			Handler: wrapHandler(apiHandler.GetShow),
 		},
 		{
 			Method:  "POST",

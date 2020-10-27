@@ -7,13 +7,13 @@ import (
 	"commerceiq.ai/ticketing/pkgs/service/movie"
 )
 
-func (h *Handler) ListShow(request *http.Request, writer http.ResponseWriter) {
-	var inp movie.ListMovieShowInput
+func (h *Handler) GetShow(request *http.Request, writer http.ResponseWriter) {
+	var inp movie.GetMovieShowInput
 	if err := ValidateContract(&inp, request, writer, h.db); err != nil {
 		return
 	}
 
-	if out, err := h.svc.movie.ListMovieShow(&inp); err != nil {
+	if out, err := h.svc.movie.GetMovieShow(&inp); err != nil {
 		resp := ErrorResponse(err.Error(), http.StatusUnprocessableEntity)
 		jsonHelper.WriteResult(&resp, writer, http.StatusUnprocessableEntity)
 	} else {

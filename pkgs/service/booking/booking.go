@@ -55,8 +55,11 @@ func (s *Service) BookSeats(inp *BookSeatsInput) (*BookSeatsOutput, error) {
 		s.cache.Delete("ListBookingsOutput")
 	}
 
+	if result := s.db.Preload("MovieShow").Find(&booking, booking.ID); result.Error != nil {
+		return nil, result.Error
+	}
 	out := &BookSeatsOutput{Booking: booking}
-	err := booking.BookSeats(s.db, inp.SeatNumbers)
+	err := booking.BookSeats(s.db, inp.SeatNumbers, inp.SeatType)
 	if err != nil {
 		booking.Fail()
 	} else {
@@ -65,13 +68,15 @@ func (s *Service) BookSeats(inp *BookSeatsInput) (*BookSeatsOutput, error) {
 	if result := s.db.Save(&booking); result.Error != nil {
 		return out, result.Error
 	}
-	if result := s.db.Preload("BookingSeat").
-		Preload("MovieShow").
-		Preload("User").
-		Find(&booking, booking.ID); result.Error != nil {
-		return out, result.Error
+	if err == nil {
+		if result := s.db.Preload("Seats").
+			Preload("MovieShow").
+			Preload("User").
+			Find(&booking, booking.ID); result.Error != nil {
+			return out, result.Error
+		}
 	}
 
 	out.Booking = booking
-	return out, nil
+	return out, err
 }

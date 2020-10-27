@@ -44,17 +44,17 @@ type AddMovieShowOutput struct {
 	Show models.MovieShow
 }
 
-type ListMovieShowInput struct {
+type GetMovieShowInput struct {
 	ShowID int `json:"show_id"`
 }
 
-func (lms *ListMovieShowInput) Validate(db *gorm.DB) error {
+func (lms *GetMovieShowInput) Validate(db *gorm.DB) error {
 	if lms.ShowID == 0 {
-		return fmt.Errorf("movie_id, cinema_screen_id, end_time, and start_time are mandatory fields")
+		return fmt.Errorf("show_id is mandatory fields")
 	}
 	return nil
 }
 
-type ListMovieShowOutput struct {
+type GetMovieShowOutput struct {
 	Show models.MovieShow `json:"show"`
 }
